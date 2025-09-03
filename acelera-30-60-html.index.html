@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acelera 30/60 - Acesso Jurídico Acelerado para Pacientes Oncológicos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        details summary::-webkit-details-marker { display: none; }
+        details summary::marker { content: ""; }
+        details summary:before { content: "▶ "; transition: transform 0.2s; }
+        details[open] summary:before { content: "▼ "; }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 text-slate-900">
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-gradient-to-tr from-rose-500 to-pink-400 flex items-center justify-center text-white font-bold">A3</div>
+                <div>
+                    <h1 class="font-semibold text-lg">Acelera 30/60</h1>
+                    <p class="text-xs text-slate-500">Acesso jurídico acelerado para pacientes oncológicos</p>
+                </div>
+            </div>
+            <nav class="hidden md:flex gap-6 text-sm text-slate-700">
+                <a href="#como-funciona" class="hover:underline">Como funciona</a>
+                <a href="#produtos" class="hover:underline">Produtos</a>
+                <a href="#depoimentos" class="hover:underline">Depoimentos</a>
+                <a href="#contato" class="hover:underline">Contato</a>
+            </nav>
+            <div class="hidden md:block">
+                <a href="https://wa.me/5511954086876?text=Ol%C3%A1%2C+preciso+acelerar+meu+tratamento+30%2F60" 
+                   class="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-lg shadow hover:opacity-95 text-sm">
+                    Fale no WhatsApp
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section class="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+                <h2 class="text-3xl md:text-4xl font-extrabold leading-tight">
+                    Seu tratamento oncológico <span class="text-rose-600">não pode esperar</span>
+                </h2>
+                <p class="mt-4 text-slate-700">A lei garante exames em <strong>30 dias</strong> (suspeita) e início do tratamento em <strong>60 dias</strong> (diagnóstico). Se o SUS ou o plano atrasou ou negou, nós acionamos para acelerar o acesso.</p>
+
+                <ul class="mt-6 grid sm:grid-cols-2 gap-3">
+                    <li class="flex items-start gap-3">
+                        <div class="w-10 h-10 bg-rose-50 rounded-md flex items-center justify-center text-rose-600 font-semibold">1</div>
+                        <div>
+                            <div class="font-semibold">Checklist Rápido</div>
+                            <div class="text-sm text-slate-600">Verifique prazos e documentos em minutos.</div>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="w-10 h-10 bg-rose-50 rounded-md flex items-center justify-center text-rose-600 font-semibold">2</div>
+                        <div>
+                            <div class="font-semibold">Notificação Extrajudicial</div>
+                            <div class="text-sm text-slate-600">Cobrança formal ao SUS ou à operadora em 48h.</div>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="w-10 h-10 bg-rose-50 rounded-md flex items-center justify-center text-rose-600 font-semibold">3</div>
+                        <div>
+                            <div class="font-semibold">Ação com Tutela de Urgência</div>
+                            <div class="text-sm text-slate-600">Liminar para início imediato do tratamento.</div>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <div class="w-10 h-10 bg-rose-50 rounded-md flex items-center justify-center text-rose-600 font-semibold">4</div>
+                        <div>
+                            <div class="font-semibold">Benefícios Legais</div>
+                            <div class="text-sm text-slate-600">TFD, FGTS, prioridade processual, isenção etc.</div>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="mt-8 flex gap-3">
+                    <a href="#produtos" class="inline-block px-5 py-3 bg-rose-600 text-white rounded-lg font-semibold shadow hover:opacity-95">Quero acelerar meu tratamento</a>
+                    <a href="#checklist" class="inline-block px-5 py-3 border border-slate-200 rounded-lg text-slate-700">Baixar checklist gratuito</a>
+                </div>
+
+                <div class="mt-6 text-xs text-slate-500">*Leis: 12.732/2012 (60 dias), 13.896/2019 (30 dias), Estatuto da Pessoa com Câncer (14.238/2021)</div>
+            </div>
+
+            <aside class="bg-white rounded-2xl p-6 shadow-md">
+                <div class="text-sm text-slate-500">Triagem rápida</div>
+                <h3 class="mt-2 font-bold text-lg">Preencha em 60 segundos</h3>
+
+                <div class="mt-4 space-y-3">
+                    <div>
+                        <label class="block text-sm text-slate-700 mb-1">Nome</label>
+                        <input id="nome" class="w-full rounded-md border border-slate-200 px-3 py-2 text-sm" placeholder="Nome completo">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-slate-700 mb-1">Estado</label>
+                        <select id="estado" class="w-full rounded-md border border-slate-200 px-3 py-2 text-sm">
+                            <option>São Paulo</option>
+                            <option>Rio de Janeiro</option>
+                            <option>Minas Gerais</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-slate-700 mb-1">Diagnóstico</label>
+                        <input id="diagnostico" class="w-full rounded-md border border-slate-200 px-3 py-2 text-sm" placeholder="Ex.: Câncer de mama">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-slate-700 mb-1">Você tem plano de saúde?</label>
+                        <div class="flex gap-2">
+                            <button id="plano-sim" class="flex-1 rounded-md border border-slate-200 py-2 text-sm" onclick="selecionarPlano(true)">Sim</button>
+                            <button id="plano-nao" class="flex-1 rounded-md border border-slate-200 py-2 text-sm" onclick="selecionarPlano(false)">Não</button>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button onclick="enviarWhatsApp()" class="w-full bg-emerald-600 text-white py-2 rounded-md font-semibold hover:bg-emerald-700 transition-colors">
+                            Enviar e falar no WhatsApp
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-4 text-xs text-slate-500">Atendimento inicial gratuito. Se houver irregularidade, oferecemos plano de acesso acelerado com ação emergencial.</div>
+            </aside>
+        </section>
+
+        <section id="como-funciona" class="mt-16">
+            <h3 class="text-2xl font-bold">Como funciona</h3>
+            <div class="mt-6 grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg p-6 shadow">
+                    <div class="font-semibold">1. Triagem imediata</div>
+                    <p class="mt-2 text-sm text-slate-600">Coletamos datas, protocolos e laudo — montamos o dossiê em 24–48h.</p>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow">
+                    <div class="font-semibold">2. Ação administrativa</div>
+                    <p class="mt-2 text-sm text-slate-600">Notificamos SUS/operadora com documento técnico e prazo curto.</p>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow">
+                    <div class="font-semibold">3. Judicialização rápida</div>
+                    <p class="mt-2 text-sm text-slate-600">Quando necessário, petição com pedido de liminar e acompanhamento até a autorização.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="produtos" class="mt-16">
+            <h3 class="text-2xl font-bold">Produtos & Serviços</h3>
+            <div class="mt-6 grid md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg p-6 shadow flex flex-col">
+                    <div class="font-semibold text-lg">Checklist 30/60 — GRÁTIS</div>
+                    <p class="mt-2 text-sm text-slate-600 flex-1">PDF + planilha com todos os prazos, modelos de requerimento e checklist probatório.</p>
+                    <div class="mt-4">
+                        <a href="https://wa.me/5511954086876?text=Quero+baixar+o+checklist+gratuito+30%2F60" class="inline-block px-4 py-2 bg-rose-600 text-white rounded-md">Baixar grátis</a>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 shadow flex flex-col">
+                    <div class="font-semibold text-lg">Consultoria Acesso 48h — R$ 497</div>
+                    <p class="mt-2 text-sm text-slate-600 flex-1">Mapeamento do caso, notificação extrajudicial e dossiê para liminar (done-for-you).</p>
+                    <div class="mt-4">
+                        <a href="https://wa.me/5511954086876?text=Quero+contratar+a+Consultoria+Acesso+48h" class="inline-block px-4 py-2 bg-amber-600 text-white rounded-md">Contratar</a>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 shadow flex flex-col">
+                    <div class="font-semibold text-lg">Ação Urgente 30/60 — R$ 4.500+</div>
+                    <p class="mt-2 text-sm text-slate-600 flex-1">Petição inicial, pedido de liminar, perícia técnica e acompanhamento até autorização do tratamento.</p>
+                    <div class="mt-4">
+                        <a href="https://wa.me/5511954086876?text=Preciso+de+uma+A%C3%A7%C3%A3o+Urgente+30%2F60" class="inline-block px-4 py-2 bg-rose-600 text-white rounded-md">Solicitar avaliação</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="depoimentos" class="mt-16">
+            <h3 class="text-2xl font-bold">Depoimentos</h3>
+            <div class="mt-6 grid md:grid-cols-2 gap-6">
+                <blockquote class="bg-white p-6 rounded-lg shadow">
+                    <p class="italic">"Meu exame estava atrasado e em duas semanas após a notificação o hospital marcou a cirurgia. Equipe muito humana e rápida."</p>
+                    <div class="mt-4 font-semibold text-sm">— M.R., São Paulo</div>
+                </blockquote>
+                <blockquote class="bg-white p-6 rounded-lg shadow">
+                    <p class="italic">"O plano negou a terapia-alvo; com a liminar tive autorização em 7 dias. Recomendo fortemente."</p>
+                    <div class="mt-4 font-semibold text-sm">— A.C., Campinas</div>
+                </blockquote>
+            </div>
+        </section>
+
+        <section id="faq" class="mt-16">
+            <h3 class="text-2xl font-bold">Perguntas frequentes</h3>
+            <div class="mt-6 space-y-3">
+                <details class="bg-white p-4 rounded-lg shadow">
+                    <summary class="font-semibold cursor-pointer">O que são os prazos 30/60?</summary>
+                    <div class="mt-2 text-sm text-slate-600">A lei prevê 30 dias para realização de exames quando houver suspeita de neoplasia (Lei 13.896/2019) e 60 dias do diagnóstico para início do primeiro tratamento (Lei 12.732/2012).</div>
+                </details>
+
+                <details class="bg-white p-4 rounded-lg shadow">
+                    <summary class="font-semibold cursor-pointer">Meu plano negou um remédio. O que fazer?</summary>
+                    <div class="mt-2 text-sm text-slate-600">Devemos abrir o caminho administrativo na ANS (NIP), notificar a operadora e, se necessário, ingressar com ação judicial com pedido liminar.</div>
+                </details>
+
+                <details class="bg-white p-4 rounded-lg shadow">
+                    <summary class="font-semibold cursor-pointer">Quanto tempo demora para conseguir a liminar?</summary>
+                    <div class="mt-2 text-sm text-slate-600">Em casos urgentes, conseguimos liminares em 24-72h após o protocolo da ação. O tempo varia conforme a complexidade do caso e a vara judicial.</div>
+                </details>
+
+                <details class="bg-white p-4 rounded-lg shadow">
+                    <summary class="font-semibold cursor-pointer">Atendem em outros estados além de São Paulo?</summary>
+                    <div class="mt-2 text-slate-600">Sim! As leis 30/60 são federais e atendemos pacientes de todo o Brasil, sempre respeitando as particularidades de cada estado e comarca.</div>
+                </details>
+            </div>
+        </section>
+
+        <section id="contato" class="mt-16 mb-24 grid md:grid-cols-2 gap-8 items-start">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h4 class="font-bold text-lg">Fale com nosso time</h4>
+                <p class="mt-2 text-sm text-slate-600">Triagem inicial gratuita. Em casos de irregularidade, planos de ação e acompanhamento jurídico.</p>
+
+                <div class="mt-4">
+                    <a href="https://wa.me/5511954086876?text=Preciso+acelerar+meu+tratamento+30%2F60" class="inline-block px-5 py-3 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 transition-colors">Falar no WhatsApp</a>
+                </div>
+
+                <ul class="mt-6 text-sm text-slate-600 space-y-1">
+                    <li>📄 Baixe o checklist gratuito</li>
+                    <li>⏱️ Triagem em 60s</li>
+                    <li>⚖️ Acompanhamento jurídico completo</li>
+                </ul>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h4 class="font-semibold">Assine o Clube Onco Protegido</h4>
+                <p class="mt-2 text-sm text-slate-600">Suporte mensal para requisições administrativas, monitoramento de prazos e orientação documental.</p>
+                <div class="mt-4">
+                    <a href="https://wa.me/5511954086876?text=Quero+conhecer+o+Clube+Onco+Protegido" class="inline-block px-4 py-2 bg-amber-600 text-white rounded-md hover:bg-amber-700 transition-colors">Quero assinar</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white border-t py-6">
+        <div class="container mx-auto px-6 text-sm text-slate-600 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>© 2025 Acelera 30/60 — Dr. Reinaldo Santos Dos Reis - OAB/SP 433.147</div>
+            <div class="flex gap-4">
+                <a href="#" class="hover:underline">Política de Privacidade</a>
+                <a href="#" class="hover:underline">Termos</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let planoSelecionado = null;
+
+        function selecionarPlano(temPlano) {
+            planoSelecionado = temPlano;
+            
+            // Reset buttons
+            document.getElementById('plano-sim').className = 'flex-1 rounded-md border border-slate-200 py-2 text-sm';
+            document.getElementById('plano-nao').className = 'flex-1 rounded-md border border-slate-200 py-2 text-sm';
+            
+            // Highlight selected
+            if (temPlano) {
+                document.getElementById('plano-sim').className = 'flex-1 rounded-md border border-rose-600 bg-rose-600 text-white py-2 text-sm';
+            } else {
+                document.getElementById('plano-nao').className = 'flex-1 rounded-md border border-rose-600 bg-rose-600 text-white py-2 text-sm';
+            }
+        }
+
+        function enviarWhatsApp() {
+            const nome = document.getElementById('nome').value;
+            const estado = document.getElementById('estado').value;
+            const diagnostico = document.getElementById('diagnostico').value;
+            
+            if (!nome || !diagnostico) {
+                alert('Por favor, preencha pelo menos o nome e diagnóstico.');
+                return;
+            }
+            
+            const planoTexto = planoSelecionado === true ? 'Sim' : planoSelecionado === false ? 'Não' : 'Não informado';
+            
+            const mensagem = `Olá, preciso acelerar meu tratamento 30/60.
+
+Nome: ${nome}
+Estado: ${estado}
+Diagnóstico: ${diagnostico}
+Plano de saúde: ${planoTexto}
+
+Aguardo retorno para triagem inicial.`;
+            
+            const whatsappUrl = `https://wa.me/5511954086876?text=${encodeURIComponent(mensagem)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

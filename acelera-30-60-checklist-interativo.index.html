@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist 30/60 - Direitos do Paciente Oncológico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .section-card { transition: all 0.3s ease; }
+        .section-card:hover { transform: translateY(-2px); }
+        .progress-bar { transition: width 0.3s ease; }
+        .checklist-item { transition: background-color 0.2s ease; }
+        .checklist-item:hover { background-color: #f8fafc; }
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+        .tab-button { transition: all 0.3s ease; }
+        .tab-button.active { background-color: #dc2626; color: white; }
+        .floating-progress { position: fixed; top: 20px; right: 20px; z-index: 1000; }
+        @media (max-width: 768px) { .floating-progress { display: none; } }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 text-slate-900">
+    <!-- Barra de Progresso Flutuante -->
+    <div class="floating-progress bg-white p-3 rounded-lg shadow-lg border">
+        <div class="text-xs text-slate-500 mb-1">Progresso Total</div>
+        <div class="w-24 bg-gray-200 rounded-full h-2">
+            <div id="overall-progress" class="progress-bar bg-rose-600 h-2 rounded-full" style="width: 0%"></div>
+        </div>
+        <div id="progress-text" class="text-xs font-semibold mt-1">0%</div>
+    </div>
+
+    <header class="bg-white shadow-sm border-b">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-lg bg-gradient-to-tr from-rose-500 to-pink-400 flex items-center justify-center text-white font-bold">A3</div>
+                <div>
+                    <h1 class="font-bold text-xl">Checklist 30/60 Dias</h1>
+                    <p class="text-sm text-slate-600">Guia Completo dos Direitos do Paciente Oncológico</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+        <!-- Navegação por Abas -->
+        <div class="mb-8">
+            <div class="flex flex-wrap gap-2 border-b">
+                <button class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg border-b-2 border-transparent active" 
+                        onclick="showSection('identificacao')">
+                    📋 Identificação
+                </button>
+                <button class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg border-b-2 border-transparent" 
+                        onclick="showSection('documentos')">
+                    📄 Documentos
+                </button>
+                <button class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg border-b-2 border-transparent" 
+                        onclick="showSection('verificacao')">
+                    🔍 Verificação
+                </button>
+                <button class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg border-b-2 border-transparent" 
+                        onclick="showSection('direitos-sociais')">
+                    🎯 Dir. Sociais
+                </button>
+                <button class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg border-b-2 border-transparent" 
+                        onclick="showSection('direitos-tributarios')">
+                    💰 Dir. Tributários
+                </button>
+                <button class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg border-b-2 border-transparent" 
+                        onclick="showSection('transporte')">
+                    🚗 Transporte
+                </button>
+                <button class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg border-b-2 border-transparent" 
+                        onclick="showSection('resultado')">
+                    📊 Resultado
+                </button>
+            </div>
+        </div>
+
+        <!-- Seção 1: Identificação do Caso -->
+        <div id="identificacao" class="form-section active">
+            <div class="bg-white rounded-lg shadow-sm border p-6 mb-6">
+                <h2 class="text-2xl font-bold mb-4 text-rose-600">📋 Identificação do Seu Caso</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Dados Pessoais -->
+                    <div class="space-y-4">
+                        <h3 class="font-semibold text-lg">Dados Pessoais</h3>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Nome Completo</label>
+                            <input type="text" id="nome-completo" class="w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Nome do paciente">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">CPF</label>
+                            <input type="text" id="cpf" class="w-full border border-gray-300 rounded-md px-3 py-2" placeholder="000.000.000-00">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Diagnóstico/CID</label>
+                            <input type="text" id="diagnostico-cid" class="w-full border border-gray-300 rounded-md px-3 py-2" placeholder="Ex: C50.9 - Neoplasia mama">
+                        </div>
+                    </div>
+
+                    <!-- Cálculo de Prazos -->
+                    <div class="space-y-4">
+                        <h3 class="font-semibold text-lg">Cálculo de Prazos</h3>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Data da Solicitação Médica</label>
+                            <input type="date" id="data-solicitacao" class="w-full border border-gray-300 rounded-md px-3 py-2" onchange="calcularPrazos()">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Data do Diagnóstico (se confirmado)</label>
+                            <input type="date" id="data-diagnostico" class="w-full border border-gray-300 rounded-md px-3 py-2" onchange="calcularPrazos()">
+                        </div>
+                        <div id="resultado-prazos" class="p-3 bg-gray-50 rounded-md text-sm"></div>
+                    </div>
+                </div>
+
+                <!-- Situação Atual -->
+                <div class="mt-6">
+                    <h3 class="font-semibold text-lg mb-3">Situação Atual - Marque sua situação:</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <h4 class="font-medium text-amber-600">🔍 Suspeita de Câncer (Lei 13.896/2019)</h4>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="identificacao"> 
+                                Médico solicitou exames por suspeita há mais de 30 dias
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="identificacao"> 
+                                Exame foi negado pelo plano de saúde
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="identificacao"> 
+                                SUS não marcou exame dentro do prazo
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="identificacao"> 
+                                Resultado do exame atrasado há mais de 15 dias
+                            </label>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h4 class="font-medium text-rose-600">🎯 Diagnóstico Confirmado (Lei 12.732/2012)</h4>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="identificacao"> 
+                                Diagnóstico confirmado há mais de 60 dias sem tratamento
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="identificacao"> 
+                                Plano negou procedimento/medicamento oncológico
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="identificacao"> 
+                                SUS não autorizou tratamento no prazo
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="identificacao"> 
+                                Fila de espera superior a 60 dias
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 2: Documentos Essenciais -->
+        <div id="documentos" class="form-section">
+            <div class="bg-white rounded-lg shadow-sm border p-6 mb-6">
+                <h2 class="text-2xl font-bold mb-4 text-blue-600">📄 Documentos Essenciais</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Documentos Básicos -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">Documentos Básicos (Sempre Necessários)</h3>
+                        <div class="space-y-2">
+                            <h4 class="font-medium text-gray-700">Identificação:</h4>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                RG e CPF (paciente)
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Comprovante de residência atualizado
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Cartão do SUS ou carteirinha do plano
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Procuração (se representado por terceiro)
+                            </label>
+
+                            <h4 class="font-medium text-gray-700 mt-4">Médicos:</h4>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Relatório médico com CID-10
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Solicitação de exames datada e carimbada
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Laudos de exames já realizados
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Prescrição médica do tratamento
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Segunda opinião médica (se disponível)
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Documentos Probatórios -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">Documentos Probatórios</h3>
+                        <div class="space-y-2">
+                            <h4 class="font-medium text-gray-700">Comprovação de Prazos:</h4>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Protocolo de solicitação no SUS/plano
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Emails ou mensagens sobre negativas
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Comprovante de agendamento (se houver)
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Histórico de atendimentos
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Prints de telas de sistemas online
+                            </label>
+
+                            <h4 class="font-medium text-gray-700 mt-4">Administrativos:</h4>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Contrato do plano de saúde
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Última fatura paga do plano
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Rol da ANS atualizado
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="documentos"> 
+                                Diretriz de Utilização (DUT) se aplicável
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 3: Verificação -->
+        <div id="verificacao" class="form-section">
+            <div class="bg-white rounded-lg shadow-sm border p-6 mb-6">
+                <h2 class="text-2xl font-bold mb-4 text-purple-600">🔍 Checklist de Verificação</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Antes de Acionar -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">Antes de Acionar Juridicamente</h3>
+                        <div class="space-y-2">
+                            <h4 class="font-medium text-gray-700">Tentativa Administrativa:</h4>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Solicitei formalmente ao plano/SUS?
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Tenho protocolo da solicitação?
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Recebi resposta por escrito?
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Resposta foi negativa ou passou do prazo?
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Abri reclamação na ANS (planos) ou ouvidoria (SUS)?
+                            </label>
+
+                            <h4 class="font-medium text-gray-700 mt-4">Urgência Médica:</h4>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Médico atestou urgência do caso?
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Há risco de progressão da doença?
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Janela terapêutica será perdida?
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Tratamento tem prazo específico para eficácia?
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Requisitos Ação Judicial -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">Requisitos para Ação Judicial</h3>
+                        <div class="space-y-2">
+                            <h4 class="font-medium text-gray-700">Pressupostos Legais:</h4>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Prazo legal foi ultrapassado (30 ou 60 dias)
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Tentativa administrativa comprovada
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Prescrição médica clara e específica
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Urgência médica caracterizada
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                Cobertura contratual/SUS verificada
+                            </label>
+                        </div>
+
+                        <!-- Sinais de Alerta -->
+                        <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                            <h4 class="font-medium text-red-800 mb-2">🚨 Sinais de Alerta - Acione Advogado Se:</h4>
+                            <div class="space-y-1 text-sm">
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                    <span class="text-red-700">Prazo ultrapassou 30/60 dias</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                    <span class="text-red-700">Médico indicou urgência/emergência</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                    <span class="text-red-700">Estado de saúde deteriorando</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" class="mr-2" data-section="verificacao"> 
+                                    <span class="text-red-700">Múltiplas negativas administrativas</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 4: Direitos Sociais -->
+        <div id="direitos-sociais" class="form-section">
+            <div class="bg-white rounded-lg shadow-sm border p-6 mb-6">
+                <h2 class="text-2xl font-bold mb-4 text-green-600">🎯 Direitos Sociais e Previdenciários</h2>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Previdenciários -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">Benefícios Previdenciários</h3>
+                        <div class="space-y-2">
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-sociais"> 
+                                Auxílio-doença por incapacidade temporária
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-sociais"> 
+                                Aposentadoria por invalidez
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-sociais"> 
+                                BPC-LOAS (renda per capita inferior a 1/4 salário)
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-sociais"> 
+                                Isenção de carência para benefícios
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Trabalhistas -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">Direitos Trabalhistas</h3>
+                        <div class="space-y-2">
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-sociais"> 
+                                Estabilidade no emprego (12 meses após alta)
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-sociais"> 
+                                FGTS por doença grave
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-sociais"> 
+                                Licença para acompanhante (familiar)
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-sociais"> 
+                                Redução de jornada para tratamento
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- TFD -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">TFD - Tratamento Fora do Domicílio</h3>
+                        <div class="space-y-2">
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-sociais"> 
+                                Transporte custeado pelo SUS
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-sociais"> 
+                                Hospedagem para paciente e acompanhante
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-sociais"> 
+                                Alimentação durante deslocamento
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-sociais"> 
+                                Ajuda de custo para despesas extras
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 5: Direitos Tributários -->
+        <div id="direitos-tributarios" class="form-section">
+            <div class="bg-white rounded-lg shadow-sm border p-6 mb-6">
+                <h2 class="text-2xl font-bold mb-4 text-yellow-600">💰 Direitos Tributários</h2>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Isenção IRPF -->
+                    <div>
+                        <h3 class="font-semibold text-lg mb-3">Isenção de IRPF - Pessoa Física (Lei 7.713/1988)</h3>
+                        <div class="space-y-2">
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-tributarios"> 
+                                Rendimentos de aposentadoria por invalidez
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-tributarios"> 
+                                Pensões decorrentes de aposentadoria por invalidez
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-tributarios"> 
+                                Rendimentos de reforma militar por invalidez
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-tributarios"> 
+                                Pensões militares por invalidez do segurado
+                            </label>
+                        </div>
+
+                        <h4 class="font-semibold text-md mb-2 mt-4">Documentos Necessários para IRPF:</h4>
+                        <div class="space-y-2">
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-tributarios"> 
+                                Laudo médico atestando doença grave (CID-10)
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-tributarios"> 
+                                Declarações de IRPF dos últimos 5 anos
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-tributarios"> 
+                                Comprovantes de rendimentos (aposentadoria/pensão)
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-tributarios"> 
+                                Perícia médica do INSS (se aposentado por invalidez)
+                            </label>
+                            <label class="checklist-item flex items-center p-2 rounded">
+                                <input type="checkbox" class="mr-2" data-section="direitos-tributarios"> 
+                                Requerimento na Receita Federal (formulário específico)
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Restituição e
